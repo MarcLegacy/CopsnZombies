@@ -6,6 +6,12 @@
 #include "GameFramework/Character.h"
 #include "CopsnZombiesCharacter.generated.h"
 
+enum class Race
+{
+    Human,
+	Undead
+};
+
 UCLASS(config=Game)
 class ACopsnZombiesCharacter : public ACharacter
 {
