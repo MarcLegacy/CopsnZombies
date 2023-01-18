@@ -1,34 +1,28 @@
 // Personal Project made by Marc Meijering, if code is taken from others it will be specified in the same file.
 
-
 #include "PlayerCharacter.h"
 
-// Sets default values
+#include "CopsnZombies/Utility/Logger.h"
+
 APlayerCharacter::APlayerCharacter()
 {
- 	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = true;
-
+	PrimaryActorTick.bCanEverTick = false;
 }
 
-// Called when the game starts or when spawned
-void APlayerCharacter::BeginPlay()
+void APlayerCharacter::OnMeleeAttack_Implementation()
 {
-	Super::BeginPlay();
-	
+	if (FLogger::CheckAndLogIsValidPtr(MeleeMontage, __FUNCTION__))
+	{
+		PlayAnimMontage(MeleeMontage);
+	}
 }
 
-// Called every frame
-void APlayerCharacter::Tick(float DeltaTime)
-{
-	Super::Tick(DeltaTime);
-
-}
-
-// Called to bind functionality to input
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 {
-	Super::SetupPlayerInputComponent(PlayerInputComponent);
+    Super::SetupPlayerInputComponent(PlayerInputComponent);
 
+    PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::OnMeleeAttack_Implementation);
 }
+
+
 

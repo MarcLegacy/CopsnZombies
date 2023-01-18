@@ -3,27 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "CopsnZombies/CopsnZombiesCharacter.h"
+#include "CopsnZombies/Interfaces/MeleeInterface.h"
 #include "PlayerCharacter.generated.h"
 
 UCLASS()
-class COPSNZOMBIES_API APlayerCharacter : public ACharacter
+class COPSNZOMBIES_API APlayerCharacter : public ACopsnZombiesCharacter, public IMeleeInterface
 {
 	GENERATED_BODY()
 
 public:
-	// Sets default values for this character's properties
 	APlayerCharacter();
 
-protected:
-	// Called when the game starts or when spawned
-	virtual void BeginPlay() override;
+	// Returned variable is set in the editor.
+	UAnimMontage* GetMontage() const { return MeleeMontage; }
+private:
+	void OnMeleeAttack();
+	virtual void OnMeleeAttack_Implementation();
 
-public:	
-	// Called every frame
-	virtual void Tick(float DeltaTime) override;
+	void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-	// Called to bind functionality to input
-	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
-
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+		UAnimMontage* MeleeMontage;
 };
