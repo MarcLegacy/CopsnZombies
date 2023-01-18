@@ -1,4 +1,4 @@
-// Fill out your copyright notice in the Description page of Project Settings.
+// Personal Project made by Marc Meijering, if code is taken from others it will be specified in the same file.
 
 #pragma once
 
@@ -8,7 +8,7 @@
 
 class UBehaviorTree;
 
-UCLASS(Abstract)
+UCLASS()
 class COPSNZOMBIES_API ANPC : public ACharacter
 {
 	GENERATED_BODY()
