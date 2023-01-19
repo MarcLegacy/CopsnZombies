@@ -16,6 +16,9 @@ ANPC::ANPC()
 	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
 	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget Component"));
 	WidgetComponent->SetupAttachment(RootComponent);
+	WidgetComponent->SetWidgetSpace(EWidgetSpace::Screen);	// Makes sure it will always face the player
+	WidgetComponent->SetRelativeLocation(FVector(0.0f, 0.0f, 85.0f));
+
 }
 
 void ANPC::BeginPlay()
@@ -23,6 +26,13 @@ void ANPC::BeginPlay()
 	Super::BeginPlay();
 
 	FLogger::CheckAndLogIsPropertySet(this, BehaviorTree, GET_MEMBER_NAME_CHECKED(ANPC, BehaviorTree));
+
+	if (FLogger::CheckAndLogIsPropertySet(this, HealthBarWidget, GET_MEMBER_NAME_CHECKED(ANPC, HealthBarWidget)))
+	{
+		WidgetComponent->SetWidgetClass(HealthBarWidget->GetClass());
+	}
+
+
 }
 
 

@@ -18,9 +18,9 @@ class COPSNZOMBIES_API ANPCController : public AAIController
 public:
     ANPCController();
 
-    UBlackboardComponent* GetBlackboardComponent() { return BlackboardComponent; }
-    UAISenseConfig_Sight* GetSightConfig() { return SightConfig; }
-    UAISenseConfig_Hearing* GetHearingConfig() { return HearingConfig; }
+    UBlackboardComponent* GetBlackboardComponent() const { return BlackboardComponent; }
+    UAISenseConfig_Sight* GetSightConfig() const { return SightConfig; }
+    UAISenseConfig_Hearing* GetHearingConfig() const { return HearingConfig; }
 
 protected:
     void BeginPlay() override;
@@ -33,11 +33,11 @@ private:
         void OnSenseDetected(const TArray<AActor*>& UpdatedActors);
 
     UPROPERTY()
-        UBlackboardComponent* BlackboardComponent;
+        UBlackboardComponent* BlackboardComponent = nullptr;
 
     UPROPERTY()
-        UAISenseConfig_Sight* SightConfig;
+        UAISenseConfig_Sight* SightConfig = nullptr;
 
     UPROPERTY()
-        UAISenseConfig_Hearing* HearingConfig;
+        UAISenseConfig_Hearing* HearingConfig = nullptr;
 };

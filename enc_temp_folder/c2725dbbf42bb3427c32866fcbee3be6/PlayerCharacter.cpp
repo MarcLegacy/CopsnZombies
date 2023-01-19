@@ -19,7 +19,7 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::OnMeleeAttack_Implementation()
 {
-	if (FLogger::CheckAndLogIsValidPtr(MeleeMontage, __FUNCTION__) && GetMesh()->GetAnimInstance()->Montage_GetIsStopped(MeleeMontage))
+	if (FLogger::CheckAndLogIsValidPtr(MeleeMontage, __FUNCTION__))
 	{
 		PlayAnimMontage(MeleeMontage);
 	}

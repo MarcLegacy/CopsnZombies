@@ -7,6 +7,8 @@
 #include "CopsnZombies/Interfaces/MeleeInterface.h"
 #include "PlayerCharacter.generated.h"
 
+class UHealthComponent;
+
 UCLASS()
 class COPSNZOMBIES_API APlayerCharacter : public ACopsnZombiesCharacter, public IMeleeInterface
 {
@@ -16,13 +18,21 @@ public:
 	APlayerCharacter();
 
 	// Returned variable is set in the editor.
-	UAnimMontage* GetMontage() const { return MeleeMontage; }
+	UAnimMontage* GetMeleeMontage() const { return MeleeMontage; }
+
+	UHealthComponent* GetHealtComponent() const { return HealthComponent; }
+
 private:
+	void BeginPlay() override;
+
 	void OnMeleeAttack();
 	virtual void OnMeleeAttack_Implementation();
 
 	void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
-	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
-		UAnimMontage* MeleeMontage;
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UAnimMontage* MeleeMontage = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UHealthComponent* HealthComponent = nullptr;
 };

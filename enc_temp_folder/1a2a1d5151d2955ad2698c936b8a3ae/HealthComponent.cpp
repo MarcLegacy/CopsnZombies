@@ -2,9 +2,6 @@
 
 #include "HealthComponent.h"
 
-#include "HealthBarWidget.h"
-#include "AI/NPC.h"
-#include "Components/WidgetComponent.h"
 #include "Utility/Logger.h"
 
 UHealthComponent::UHealthComponent()
@@ -18,14 +15,6 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 	if (Damage <= 0.0f) return;
 
 	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.0f, MaxHealth);
-
-	if (ANPC* NPC = Cast<ANPC>(GetOwner()))
-	{
-	    if (UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(NPC->GetWidgetComponent()->GetUserWidgetObject()))
-	    {
-	        HealthBarWidget->SetHealthBar(CurrentHealth / MaxHealth);
-	    }
-	}
 
 	if (CurrentHealth == 0.0f)
 	{

@@ -23,8 +23,6 @@ public:
 
 	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
 
-	UWidgetComponent* GetWidgetComponent() const { return WidgetComponent; }
-
 protected:
 	virtual void BeginPlay() override;
 
@@ -37,4 +35,7 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UWidgetComponent* WidgetComponent = nullptr;
+
+	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UHealthBarWidget* HealthBarWidget = nullptr;
 };

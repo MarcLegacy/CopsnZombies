@@ -6,6 +6,8 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActorDeath);
 
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class COPSNZOMBIES_API UHealthComponent : public UActorComponent
@@ -13,16 +15,34 @@ class COPSNZOMBIES_API UHealthComponent : public UActorComponent
 	GENERATED_BODY()
 
 public:	
-	// Sets default values for this component's properties
 	UHealthComponent();
 
-protected:
-	// Called when the game starts
-	virtual void BeginPlay() override;
+	UFUNCTION(BlueprintCallable)
+		float GetCurrentHealth() const { return CurrentHealth; }
 
-public:	
-	// Called every frame
-	virtual void TickComponent(float DeltaTime, ELevelTick TickType, FActorComponentTickFunction* ThisTickFunction) override;
+	UFUNCTION(BlueprintCallable)
+		float GetMaxHealth() const { return MaxHealth; }
 
-		
+	UFUNCTION(BlueprintCallable)
+		void TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser);
+
+	UFUNCTION(BlueprintCallable)
+		void Heal(float Amount);
+
+	UPROPERTY(BlueprintAssignable)
+		FOnHealthChanged OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+		FOnActorDeath FOnActorDeath;
+
+private:
+    void BeginPlay() override;
+
+	void ChangeCurrentHealth(float NewAmount);
+
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
+	float MaxHealth = 100.0f;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+	float CurrentHealth = MaxHealth;
 };
