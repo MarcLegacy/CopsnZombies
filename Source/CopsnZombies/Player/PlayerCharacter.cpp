@@ -49,10 +49,9 @@ void APlayerCharacter::BeginPlay()
 
 void APlayerCharacter::OnMeleeAttack_Implementation()
 {
-	if (FLogger::CheckAndLogIsValidPtr(MeleeMontage, __FUNCTION__) && GetMesh()->GetAnimInstance()->Montage_GetIsStopped(MeleeMontage))
-	{
-		PlayAnimMontage(MeleeMontage);
-	}
+	if (!FLogger::CheckAndLogIsValidPtr(MeleeMontage, __FUNCTION__) || !GetMesh()->GetAnimInstance()->Montage_GetIsStopped(MeleeMontage)) return;
+
+	PlayAnimMontage(MeleeMontage);
 
 	// TODO: See if there's a way to do this via hitbox of the hand.
 
