@@ -6,6 +6,9 @@
 #include "Components/ActorComponent.h"
 #include "HealthComponent.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnHealthChanged);
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FOnActorDeath);
+
 UCLASS( ClassGroup=(Custom), meta=(BlueprintSpawnableComponent) )
 class COPSNZOMBIES_API UHealthComponent : public UActorComponent
 {
@@ -26,8 +29,16 @@ public:
 	UFUNCTION(BlueprintCallable)
 		void Heal(float Amount);
 
+	UPROPERTY(BlueprintAssignable)
+		FOnHealthChanged OnHealthChanged;
+
+	UPROPERTY(BlueprintAssignable)
+		FOnActorDeath FOnActorDeath;
+
 private:
     void BeginPlay() override;
+
+	void ChangeCurrentHealth(float NewAmount);
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, meta = (AllowPrivateAccess = "true"))
 	float MaxHealth = 100.0f;

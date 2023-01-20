@@ -19,21 +19,27 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 
 	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.0f, MaxHealth);
 
+	FLogger::LogMessage("CurrentHealth: " + FString::SanitizeFloat(CurrentHealth));
+
 	if (const ANPC* NPC = Cast<ANPC>(GetOwner()); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__))
 	{
 	    if (UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(NPC->GetWidgetComponent()->GetUserWidgetObject()); FLogger::CheckAndLogIsValidPtr(HealthBarWidget, __FUNCTION__))
 	    {
+			FLogger::LogMessage("Oui!");
 	        HealthBarWidget->SetHealthBar(CurrentHealth / MaxHealth);
 	    }
+	}
+
+	if (CurrentHealth == 0.0f)
+	{
+		FOnActorDeath.Broadcast();
 	}
 }
 
 
 void UHealthComponent::Heal(float Amount)
 {
-	if (Amount <= 0.0f) return;
-
-	CurrentHealth = FMath::Clamp(CurrentHealth + Amount, 0.0f, MaxHealth);
+	ChangeCurrentHealth(CurrentHealth + Amount);
 }
 
 void UHealthComponent::BeginPlay()
@@ -41,10 +47,32 @@ void UHealthComponent::BeginPlay()
 	Super::BeginPlay();
 	CurrentHealth = MaxHealth;
 
-	GetOwner()->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
+	if (AActor* Owner = GetOwner())
+	{
+		Owner->OnTakeAnyDamage.AddDynamic(this, &UHealthComponent::TakeDamage);
+	}
 }
 
+void UHealthComponent::ChangeCurrentHealth(float NewAmount)
+{
+	if (NewAmount < 0)
+	{
+		CurrentHealth = 0;
 
+		return;
+	}
+
+    if (NewAmount > MaxHealth)
+	{
+		CurrentHealth = MaxHealth;
+	}
+	else
+	{
+		CurrentHealth = NewAmount;
+	}
+
+	OnHealthChanged.Broadcast();
+}
 
 
 
