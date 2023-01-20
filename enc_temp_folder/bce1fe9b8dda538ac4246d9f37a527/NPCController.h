@@ -18,9 +18,9 @@ class COPSNZOMBIES_API ANPCController : public AAIController
 public:
     ANPCController();
 
-    FORCEINLINE UBlackboardComponent* GetBlackboardComponent() const { return BlackboardComponent; }
-    FORCEINLINE UAISenseConfig_Sight* GetSightConfig() const { return SightConfig; }
-    FORCEINLINE UAISenseConfig_Hearing* GetHearingConfig() const { return HearingConfig; }
+    UBlackboardComponent* GetBlackboardComponent() const { return BlackboardComponent; }
+    UAISenseConfig_Sight* GetSightConfig() const { return SightConfig; }
+    UAISenseConfig_Hearing* GetHearingConfig() const { return HearingConfig; }
 
 protected:
     void BeginPlay() override;

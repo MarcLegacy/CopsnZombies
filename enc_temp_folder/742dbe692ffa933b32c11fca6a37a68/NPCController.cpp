@@ -60,7 +60,7 @@ void ANPCController::OnSenseDetected(const TArray<AActor*>& UpdatedActors)
 
         for (size_t j = 0; j < Info.LastSensedStimuli.Num(); j++)
         {
-            const FAIStimulus& Stimulus = Info.LastSensedStimuli[j];
+            const FAIStimulus Stimulus = Info.LastSensedStimuli[j];
 
             FLogger::LogMessage(Stimulus.GetDebugDescription());
         }

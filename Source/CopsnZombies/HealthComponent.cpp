@@ -19,6 +19,8 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 
 	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.0f, MaxHealth);
 
+	FLogger::LogMessage("CurrentHealth: " + FString::SanitizeFloat(CurrentHealth));
+
 	if (ANPC* NPC = Cast<ANPC>(GetOwner()))
 	{
 	    if (UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(NPC->GetWidgetComponent()->GetUserWidgetObject()))

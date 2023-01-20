@@ -4,18 +4,12 @@
 #include "NPC.h"
 
 #include "BehaviorTree/BehaviorTree.h"
-#include "Components/WidgetComponent.h"
 #include "CopsnZombies/HealthBarWidget.h"
-#include "CopsnZombies/HealthComponent.h"
 #include "CopsnZombies/Utility/Logger.h"
 
 ANPC::ANPC()
 {
 	PrimaryActorTick.bCanEverTick = false;
-
-	HealthComponent = CreateDefaultSubobject<UHealthComponent>(TEXT("Health Component"));
-	WidgetComponent = CreateDefaultSubobject<UWidgetComponent>(TEXT("Widget Component"));
-	WidgetComponent->SetupAttachment(RootComponent);
 }
 
 void ANPC::BeginPlay()

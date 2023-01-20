@@ -3,27 +3,20 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Character.h"
+#include "CopsnZombies/CopsnZombiesCharacter.h"
 #include "NPC.generated.h"
 
-class UHealthBarWidget;
-class UWidgetComponent;
-class UHealthComponent;
 class UBehaviorTree;
 
 UCLASS()
-class COPSNZOMBIES_API ANPC : public ACharacter
+class COPSNZOMBIES_API ANPC : public ACopsnZombiesCharacter
 {
 	GENERATED_BODY()
 
 public:
 	ANPC();
 
-	UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
-
-	UHealthComponent* GetHealthComponent() const { return HealthComponent; }
-
-	UWidgetComponent* GetWidgetComponent() const { return WidgetComponent; }
+	FORCEINLINE UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -31,10 +24,4 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UBehaviorTree* BehaviorTree = nullptr;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		UHealthComponent* HealthComponent = nullptr;
-
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		UWidgetComponent* WidgetComponent = nullptr;
 };
