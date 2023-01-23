@@ -4,6 +4,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
+#include "CopsnZombies/Character/CombatComponent.h"
 #include "CopsnZombies/Utility/Logger.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
@@ -28,14 +29,16 @@ APlayerCharacter::APlayerCharacter()
 	GetCharacterMovement()->BrakingDecelerationWalking = 2000.f;
 
 	// Create a camera boom (pulls in towards the player if there is a collision)
-	CameraBoom = CreateDefaultSubobject<USpringArmComponent>(TEXT("CameraBoom"));
-	CameraBoom->SetupAttachment(RootComponent);
-	CameraBoom->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
-	CameraBoom->bUsePawnControlRotation = true; // Rotate the arm based on the controller
+	SpringArmComponent = CreateDefaultSubobject<USpringArmComponent>(TEXT("Spring Arm Component"));
+	SpringArmComponent->SetupAttachment(RootComponent);
+	SpringArmComponent->TargetArmLength = 400.0f; // The camera follows at this distance behind the character	
+	SpringArmComponent->bUsePawnControlRotation = true; // Rotate the arm based on the controller
 
-	FollowCamera = CreateDefaultSubobject<UCameraComponent>(TEXT("FollowCamera"));
-	FollowCamera->SetupAttachment(CameraBoom, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
-	FollowCamera->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+	CameraComponent = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera Component"));
+	CameraComponent->SetupAttachment(SpringArmComponent, USpringArmComponent::SocketName); // Attach the camera to the end of the boom and let the boom adjust to match the controller orientation
+	CameraComponent->bUsePawnControlRotation = false; // Camera does not rotate relative to arm
+
+	CombatComponent = CreateDefaultSubobject<UCombatComponent>(TEXT("Combat Component"));
 
 	Race = ER_Human;
 }
@@ -43,33 +46,11 @@ APlayerCharacter::APlayerCharacter()
 void APlayerCharacter::BeginPlay()
 {
     Super::BeginPlay();
-
-	FLogger::CheckAndLogIsPropertySet(this, MeleeMontage, GET_MEMBER_NAME_CHECKED(APlayerCharacter, MeleeMontage));
 }
 
-void APlayerCharacter::OnMeleeAttack_Implementation()
+void APlayerCharacter::MeleeAttack()
 {
-	if (!FLogger::CheckAndLogIsValidPtr(MeleeMontage, __FUNCTION__) || !GetMesh()->GetAnimInstance()->Montage_GetIsStopped(MeleeMontage)) return;
-
-	PlayAnimMontage(MeleeMontage);
-
-	// TODO: See if there's a way to do this via hitbox of the hand.
-
-	FHitResult HitResult;
-	const FVector TraceStartPosition = GetActorLocation();
-	const FVector TraceEndPosition = GetActorLocation() + GetActorForwardVector() * 100.0f;	// TODO: Change hard number.
-	FCollisionQueryParams QueryParams;
-	QueryParams.AddIgnoredActor(this);
-
-	if (GetWorld()->LineTraceSingleByChannel(HitResult, TraceStartPosition, TraceEndPosition, ECC_Pawn, QueryParams))
-	{
-		if (AActor* HitActor = HitResult.GetActor())
-		{
-			FDamageEvent DamageEvent;
-			HitActor->TakeDamage(5, DamageEvent, GetController(), this);
-		}
-	}
-
+	CombatComponent->MeleeAttack();
 }
 
 void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
@@ -77,7 +58,7 @@ void APlayerCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCom
 	check(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &ACharacter::Jump);
 	PlayerInputComponent->BindAction("Jump", IE_Released, this, &ACharacter::StopJumping);
-	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::OnMeleeAttack_Implementation);
+	PlayerInputComponent->BindAction("Attack", IE_Pressed, this, &APlayerCharacter::MeleeAttack);
 
 	PlayerInputComponent->BindAxis("Move Forward / Backward", this, &APlayerCharacter::MoveForward);
 	PlayerInputComponent->BindAxis("Move Right / Left", this, &APlayerCharacter::MoveRight);

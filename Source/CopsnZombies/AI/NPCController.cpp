@@ -5,6 +5,8 @@
 
 #include "NPC.h"
 #include "BehaviorTree/BehaviorTree.h"
+#include "BehaviorTree/BlackboardComponent.h"
+#include "CopsnZombies/Character/AI/BlackBoardKeys.h"
 #include "CopsnZombies/Utility/Logger.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Hearing.h"
@@ -53,16 +55,15 @@ void ANPCController::SetupPerception()
 
 void ANPCController::OnSenseDetected(const TArray<AActor*>& UpdatedActors)
 {
-    for (size_t i = 0; i < UpdatedActors.Num(); i++)
+    for (AActor* Actor : UpdatedActors)
     {
         FActorPerceptionBlueprintInfo Info;
-        GetPerceptionComponent()->GetActorsPerception(UpdatedActors[i], Info);
+        GetPerceptionComponent()->GetActorsPerception(Actor, Info);
 
-        for (size_t j = 0; j < Info.LastSensedStimuli.Num(); j++)
+        for (const FAIStimulus& Stimulus : Info.LastSensedStimuli)
         {
-            const FAIStimulus& Stimulus = Info.LastSensedStimuli[j];
-
-            FLogger::LogMessage(Stimulus.GetDebugDescription());
+            BlackboardComponent->SetValueAsVector(BlackboardKeys::TargetPosition, Stimulus.StimulusLocation);
+            BlackboardComponent->SetValueAsBool(BlackboardKeys::IsTargetSeen, Stimulus.WasSuccessfullySensed());
         }
     }
 }

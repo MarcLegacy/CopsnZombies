@@ -4,42 +4,41 @@
 
 #include "CoreMinimal.h"
 #include "CopsnZombies/CopsnZombiesCharacter.h"
-#include "CopsnZombies/Interfaces/MeleeInterface.h"
 #include "PlayerCharacter.generated.h"
 
+class UCombatComponent;
 class UCameraComponent;
 class USpringArmComponent;
 
 UCLASS()
-class COPSNZOMBIES_API APlayerCharacter : public ACopsnZombiesCharacter, public IMeleeInterface
+class COPSNZOMBIES_API APlayerCharacter : public ACopsnZombiesCharacter
 {
 	GENERATED_BODY()
 
 public:
 	APlayerCharacter();
 
-	// Returned variable is set in the editor.
-	FORCEINLINE UAnimMontage* GetMeleeMontage() const { return MeleeMontage; }
-	FORCEINLINE USpringArmComponent* GetCameraBoom() const { return CameraBoom; }
-	FORCEINLINE UCameraComponent* GetFollowCamera() const { return FollowCamera; }
+	FORCEINLINE USpringArmComponent* GetSpringArmComponent() const { return SpringArmComponent; }
+	FORCEINLINE UCameraComponent* GetCameraComponent() const { return CameraComponent; }
+	FORCEINLINE UCombatComponent* GetCombatComponent() const { return CombatComponent; }
 
 private:
 	void BeginPlay() override;
 
-	void OnMeleeAttack();
-	virtual void OnMeleeAttack_Implementation();
+	void MeleeAttack();
 
 	void SetupPlayerInputComponent(UInputComponent* PlayerInputComponent) override;
 
 	void MoveForward(float Value);
 	void MoveRight(float Value);
 
-	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
-		UAnimMontage* MeleeMontage = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		USpringArmComponent* CameraBoom = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		USpringArmComponent* SpringArmComponent = nullptr;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = Camera, meta = (AllowPrivateAccess = "true"))
-		UCameraComponent* FollowCamera = nullptr;
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UCameraComponent* CameraComponent = nullptr;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+		UCombatComponent* CombatComponent = nullptr;
 };

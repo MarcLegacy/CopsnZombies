@@ -19,9 +19,9 @@ void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDam
 
 	CurrentHealth = FMath::Clamp(CurrentHealth - Damage, 0.0f, MaxHealth);
 
-	if (const ANPC* NPC = Cast<ANPC>(GetOwner()); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__))
+	if (const ACopsnZombiesCharacter* CopsnZombiesCharacter = Cast<ACopsnZombiesCharacter>(GetOwner()); FLogger::CheckAndLogIsValidPtr(CopsnZombiesCharacter, __FUNCTION__))
 	{
-	    if (UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(NPC->GetWidgetComponent()->GetUserWidgetObject()); FLogger::CheckAndLogIsValidPtr(HealthBarWidget, __FUNCTION__))
+	    if (UHealthBarWidget* HealthBarWidget = Cast<UHealthBarWidget>(CopsnZombiesCharacter->GetWidgetComponent()->GetUserWidgetObject()); FLogger::CheckAndLogIsValidPtr(HealthBarWidget, __FUNCTION__))
 	    {
 	        HealthBarWidget->SetHealthBar(CurrentHealth / MaxHealth);
 	    }
