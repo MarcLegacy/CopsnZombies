@@ -9,4 +9,5 @@ namespace BlackboardKeys
 
     inline const TCHAR* TargetPosition = TEXT("TargetPosition");
     inline const TCHAR* IsTargetSeen = TEXT("IsTargetSeen");
+    inline const TCHAR* TargetCharacter = TEXT("TargetCharacter");
 }

@@ -6,6 +6,7 @@
 #include "NPC.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
+#include "CopsnZombies/Character/AI/AITags.h"
 #include "CopsnZombies/Character/AI/BlackBoardKeys.h"
 #include "CopsnZombies/Utility/Logger.h"
 #include "Perception/AIPerceptionComponent.h"
@@ -14,14 +15,14 @@
 
 ANPCController::ANPCController()
 {
+    PrimaryActorTick.bCanEverTick = true;   // IMPORTANT: Seems that the Perception component won't be updated if this isn't set to true.
+
     SetupPerception();
 }
 
 void ANPCController::BeginPlay()
 {
     Super::BeginPlay();
-
-    PrimaryActorTick.bCanEverTick = false;
 
     if (const ANPC* NPC = GetPawn<ANPC>(); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__) && FLogger::CheckAndLogIsValidPtr(NPC->GetBehaviorTree(), __FUNCTION__))
     {
@@ -55,6 +56,8 @@ void ANPCController::SetupPerception()
 
 void ANPCController::OnSenseDetected(const TArray<AActor*>& UpdatedActors)
 {
+    if (!FLogger::CheckAndLogIsValidPtr(BlackboardComponent, __FUNCTION__)) return;
+
     for (AActor* Actor : UpdatedActors)
     {
         FActorPerceptionBlueprintInfo Info;
@@ -62,8 +65,11 @@ void ANPCController::OnSenseDetected(const TArray<AActor*>& UpdatedActors)
 
         for (const FAIStimulus& Stimulus : Info.LastSensedStimuli)
         {
-            BlackboardComponent->SetValueAsVector(BlackboardKeys::TargetPosition, Stimulus.StimulusLocation);
-            BlackboardComponent->SetValueAsBool(BlackboardKeys::IsTargetSeen, Stimulus.WasSuccessfullySensed());
+            if (Stimulus.IsValid()) // This should avoid the double sense with an unknown sense, but if not, find something else.
+            {
+                BlackboardComponent->SetValueAsObject(BlackboardKeys::TargetCharacter, Actor);
+                BlackboardComponent->SetValueAsBool(BlackboardKeys::IsTargetSeen, Stimulus.WasSuccessfullySensed());
+            }
         }
     }
 }

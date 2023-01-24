@@ -15,7 +15,7 @@ UUpdateDistanceToTarget::UUpdateDistanceToTarget()
     bNotifyBecomeRelevant = true;
 
     DistanceToTargetKey.AddFloatFilter(this, GET_MEMBER_NAME_CHECKED(UUpdateDistanceToTarget, DistanceToTargetKey));
-    TargetPositionKey.AddVectorFilter(this, GET_MEMBER_NAME_CHECKED(UUpdateDistanceToTarget, TargetPositionKey));
+    TargetCharacterKey.AddObjectFilter(this, GET_MEMBER_NAME_CHECKED(UUpdateDistanceToTarget, TargetCharacterKey), UObject::StaticClass());
 }
 
 void UUpdateDistanceToTarget::InitializeFromAsset(UBehaviorTree& Asset)
@@ -25,7 +25,7 @@ void UUpdateDistanceToTarget::InitializeFromAsset(UBehaviorTree& Asset)
     const UBlackboardData* BlackboardData = GetBlackboardAsset();
 
     DistanceToTargetKey.ResolveSelectedKey(*BlackboardData);
-    TargetPositionKey.ResolveSelectedKey(*BlackboardData);
+    TargetCharacterKey.ResolveSelectedKey(*BlackboardData);
 }
 
 void UUpdateDistanceToTarget::OnBecomeRelevant(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)
@@ -38,7 +38,8 @@ void UUpdateDistanceToTarget::OnBecomeRelevant(UBehaviorTreeComponent& OwnerComp
     const ANPC* NPC = Controller->GetPawn<ANPC>();
     if (!FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__)) return;
 
-    const FVector TargetPosition = OwnerComp.GetBlackboardComponent()->GetValueAsVector(TargetPositionKey.SelectedKeyName);
+    const ACopsnZombiesCharacter* TargetCharacter = Cast<ACopsnZombiesCharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(TargetCharacterKey.SelectedKeyName));
+    if (!FLogger::CheckAndLogIsValidPtr(TargetCharacter, __FUNCTION__)) return;
 
-    OwnerComp.GetBlackboardComponent()->SetValueAsFloat(DistanceToTargetKey.SelectedKeyName, FVector::Dist(NPC->GetActorLocation(), TargetPosition));
+    OwnerComp.GetBlackboardComponent()->SetValueAsFloat(DistanceToTargetKey.SelectedKeyName, NPC->GetDistanceTo(TargetCharacter));
 }

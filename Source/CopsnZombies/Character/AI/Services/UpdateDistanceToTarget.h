@@ -23,5 +23,5 @@ private:
         FBlackboardKeySelector DistanceToTargetKey;
 
     UPROPERTY(EditAnywhere, Category = Blackboard, meta = (AllowPrivateAccess))
-        FBlackboardKeySelector TargetPositionKey;
+        FBlackboardKeySelector TargetCharacterKey;
 };

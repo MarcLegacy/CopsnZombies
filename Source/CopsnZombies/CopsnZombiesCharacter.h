@@ -8,6 +8,7 @@
 
 class UWidgetComponent;
 class UHealthComponent;
+class UAIPerceptionStimuliSourceComponent;
 
 UENUM(BlueprintType)
 enum ERace
@@ -37,5 +38,8 @@ private:
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UWidgetComponent* WidgetComponent = nullptr;
+
+	//UPROPERTY()
+	//UAIPerceptionStimuliSourceComponent* Stimulus = nullptr;
 };
 

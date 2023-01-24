@@ -8,7 +8,6 @@
 
 class UAISenseConfig_Hearing;
 class UAISenseConfig_Sight;
-struct FAIStimulus;
 
 UCLASS()
 class COPSNZOMBIES_API ANPCController : public AAIController
@@ -22,11 +21,9 @@ public:
     FORCEINLINE UAISenseConfig_Sight* GetSightConfig() const { return SightConfig; }
     FORCEINLINE UAISenseConfig_Hearing* GetHearingConfig() const { return HearingConfig; }
 
-protected:
+private:
     void BeginPlay() override;
     void OnPossess(APawn* InPawn) override;
-
-private:
     void SetupPerception();
 
     UFUNCTION()
