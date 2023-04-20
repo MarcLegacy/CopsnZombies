@@ -5,7 +5,7 @@
 
 #include "NavigationSystem.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "CopsnZombies/AI/NPCController.h"
+#include "CopsnZombies/Controllers/NPCController.h"
 #include "CopsnZombies/Utility/Logger.h"
 
 UFindRandomPosition::UFindRandomPosition()

@@ -1,7 +1,6 @@
 // Copyright Epic Games, Inc. All Rights Reserved.
 
 #include "CopsnZombiesGameMode.h"
-#include "CopsnZombiesCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 
 ACopsnZombiesGameMode::ACopsnZombiesGameMode()

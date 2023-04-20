@@ -2,9 +2,8 @@
 
 #include "CopsnZombiesCharacter.h"
 
-#include "HealthComponent.h"
 #include "Components/WidgetComponent.h"
-#include "Perception/AIPerceptionStimuliSourceComponent.h"
+#include "CopsnZombies/Components/HealthComponent.h"
 #include "Perception/AISense_Sight.h"
 
 

@@ -4,8 +4,7 @@
 
 #include "Camera/CameraComponent.h"
 #include "Components/CapsuleComponent.h"
-#include "CopsnZombies/Character/CombatComponent.h"
-#include "CopsnZombies/Utility/Logger.h"
+#include "CopsnZombies/Components/CombatComponent.h"
 #include "GameFramework/CharacterMovementComponent.h"
 #include "GameFramework/SpringArmComponent.h"
 #include "Kismet/GameplayStatics.h"

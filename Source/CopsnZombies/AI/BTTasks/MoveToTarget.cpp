@@ -4,9 +4,8 @@
 #include "MoveToTarget.h"
 
 #include "BehaviorTree/BlackboardComponent.h"
-#include "CopsnZombies/CopsnZombiesCharacter.h"
-#include "CopsnZombies/AI/NPC.h"
-#include "CopsnZombies/AI/NPCController.h"
+#include "CopsnZombies/Characters/CopsnZombiesCharacter.h"
+#include "CopsnZombies/Controllers/NPCController.h"
 #include "CopsnZombies/Utility/Logger.h"
 
 UMoveToTarget::UMoveToTarget()

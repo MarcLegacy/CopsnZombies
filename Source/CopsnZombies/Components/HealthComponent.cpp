@@ -2,10 +2,10 @@
 
 #include "HealthComponent.h"
 
-#include "HealthBarWidget.h"
-#include "AI/NPC.h"
 #include "Components/WidgetComponent.h"
-#include "Utility/Logger.h"
+#include "CopsnZombies/Characters/CopsnZombiesCharacter.h"
+#include "CopsnZombies/UI/HealthBarWidget.h"
+#include "CopsnZombies/Utility/Logger.h"
 
 UHealthComponent::UHealthComponent()
 {

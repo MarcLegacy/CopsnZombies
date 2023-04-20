@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CopsnZombies/CopsnZombiesCharacter.h"
+#include "CopsnZombies/Characters/CopsnZombiesCharacter.h"
 #include "PlayerCharacter.generated.h"
 
 class UCombatComponent;

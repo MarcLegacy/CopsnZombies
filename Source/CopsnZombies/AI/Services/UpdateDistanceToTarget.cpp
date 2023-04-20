@@ -4,8 +4,8 @@
 #include "UpdateDistanceToTarget.h"
 
 #include "BehaviorTree/BlackboardComponent.h"
-#include "CopsnZombies/AI/NPC.h"
-#include "CopsnZombies/AI/NPCController.h"
+#include "CopsnZombies/Characters/AICharacter.h"
+#include "CopsnZombies/Controllers/NPCController.h"
 #include "CopsnZombies/Utility/Logger.h"
 #include "Kismet/GameplayStatics.h"
 
@@ -35,7 +35,7 @@ void UUpdateDistanceToTarget::OnBecomeRelevant(UBehaviorTreeComponent& OwnerComp
     const ANPCController* Controller = Cast<ANPCController>(OwnerComp.GetAIOwner());
     if (!FLogger::CheckAndLogIsValidPtr(Controller, __FUNCTION__)) return;
 
-    const ANPC* NPC = Controller->GetPawn<ANPC>();
+    const AAICharacter* NPC = Controller->GetPawn<AAICharacter>();
     if (!FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__)) return;
 
     const ACopsnZombiesCharacter* TargetCharacter = Cast<ACopsnZombiesCharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject(TargetCharacterKey.SelectedKeyName));

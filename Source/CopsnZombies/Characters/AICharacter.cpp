@@ -1,22 +1,21 @@
 // Fill out your copyright notice in the Description page of Project Settings.
 
 
-#include "NPC.h"
+#include "AICharacter.h"
 
 #include "BehaviorTree/BehaviorTree.h"
-#include "CopsnZombies/HealthBarWidget.h"
 #include "CopsnZombies/Utility/Logger.h"
 
-ANPC::ANPC()
+AAICharacter::AAICharacter()
 {
 	PrimaryActorTick.bCanEverTick = false;
 }
 
-void ANPC::BeginPlay()
+void AAICharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	FLogger::CheckAndLogIsPropertySet(this, BehaviorTree, GET_MEMBER_NAME_CHECKED(ANPC, BehaviorTree));
+	FLogger::CheckAndLogIsPropertySet(this, BehaviorTree, GET_MEMBER_NAME_CHECKED(AAICharacter, BehaviorTree));
 }
 
 

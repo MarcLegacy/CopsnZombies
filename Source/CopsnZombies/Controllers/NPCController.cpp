@@ -3,11 +3,10 @@
 
 #include "NPCController.h"
 
-#include "NPC.h"
 #include "BehaviorTree/BehaviorTree.h"
 #include "BehaviorTree/BlackboardComponent.h"
-#include "CopsnZombies/Character/AI/AITags.h"
-#include "CopsnZombies/Character/AI/BlackBoardKeys.h"
+#include "CopsnZombies/AI/BlackboardKeys.h"
+#include "CopsnZombies/Characters/AICharacter.h"
 #include "CopsnZombies/Utility/Logger.h"
 #include "Perception/AIPerceptionComponent.h"
 #include "Perception/AISenseConfig_Hearing.h"
@@ -24,7 +23,7 @@ void ANPCController::BeginPlay()
 {
     Super::BeginPlay();
 
-    if (const ANPC* NPC = GetPawn<ANPC>(); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__) && FLogger::CheckAndLogIsValidPtr(NPC->GetBehaviorTree(), __FUNCTION__))
+    if (const AAICharacter* NPC = GetPawn<AAICharacter>(); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__) && FLogger::CheckAndLogIsValidPtr(NPC->GetBehaviorTree(), __FUNCTION__))
     {
         UseBlackboard(NPC->GetBehaviorTree()->BlackboardAsset, BlackboardComponent);
     }
@@ -34,7 +33,7 @@ void ANPCController::OnPossess(APawn* InPawn)
 {
     Super::OnPossess(InPawn);
 
-    if (const ANPC* NPC = GetPawn<ANPC>(); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__))
+    if (const AAICharacter* NPC = GetPawn<AAICharacter>(); FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__))
     {
         RunBehaviorTree(NPC->GetBehaviorTree());
     }

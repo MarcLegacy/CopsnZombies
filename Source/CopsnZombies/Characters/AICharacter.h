@@ -3,18 +3,18 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "CopsnZombies/CopsnZombiesCharacter.h"
-#include "NPC.generated.h"
+#include "CopsnZombies/Characters/CopsnZombiesCharacter.h"
+#include "AICharacter.generated.h"
 
 class UBehaviorTree;
 
 UCLASS()
-class COPSNZOMBIES_API ANPC : public ACopsnZombiesCharacter
+class COPSNZOMBIES_API AAICharacter : public ACopsnZombiesCharacter
 {
 	GENERATED_BODY()
 
 public:
-	ANPC();
+	AAICharacter();
 
 	FORCEINLINE UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
 

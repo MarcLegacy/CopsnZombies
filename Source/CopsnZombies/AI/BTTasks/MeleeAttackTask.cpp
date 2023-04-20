@@ -3,9 +3,9 @@
 
 #include "MeleeAttackTask.h"
 
-#include "CopsnZombies/AI/NPC.h"
-#include "CopsnZombies/AI/NPCController.h"
-#include "CopsnZombies/Character/CombatComponent.h"
+#include "CopsnZombies/Characters/AICharacter.h"
+#include "CopsnZombies/Components/CombatComponent.h"
+#include "CopsnZombies/Controllers/NPCController.h"
 #include "CopsnZombies/Utility/Logger.h"
 
 UMeleeAttackTask::UMeleeAttackTask()
@@ -18,7 +18,7 @@ EBTNodeResult::Type UMeleeAttackTask::ExecuteTask(UBehaviorTreeComponent& OwnerC
     const ANPCController* Controller = Cast<ANPCController>(OwnerComp.GetAIOwner());
     if (!FLogger::CheckAndLogIsValidPtr(Controller, __FUNCTION__)) return EBTNodeResult::Failed;
 
-    const ANPC* NPC = Controller->GetPawn<ANPC>();
+    const AAICharacter* NPC = Controller->GetPawn<AAICharacter>();
     if (!FLogger::CheckAndLogIsValidPtr(NPC, __FUNCTION__)) return EBTNodeResult::Failed;
 
     const UCombatComponent* CombatComponent = NPC->FindComponentByClass<UCombatComponent>();
