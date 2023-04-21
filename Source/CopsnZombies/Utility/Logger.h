@@ -10,30 +10,74 @@ public:
 	FLogger() = default;
 	~FLogger() = default;
 
-	static void LogMessage(const FString& Message, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
+    /**
+     * @brief 
+     * @param Message: pass in the message to display.
+     * @param bToScreen: pass in true to display the message on the screen.
+     * @param DisplayTime: pass in the time the message should be displayed on the screen.
+     */
+    static void LogMessage(const FString& Message, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
+    /**
+     * @brief
+     * @param Message: pass in the message to display.
+     * @param bToScreen: pass in true to display the message on the screen.
+     * @param DisplayTime: pass in the time the message should be displayed on the screen.
+     */
 	static void LogWarning(const FString& Message, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
+    /**
+     * @brief
+     * @param Message: pass in the message to display.
+     * @param bToScreen: pass in true to display the message on the screen.
+     * @param DisplayTime: pass in the time the message should be displayed on the screen.
+     */
 	static void LogError(const FString& Message, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
+    /**
+     * @brief
+     * @param Message: pass in the message to display.
+     * @param bToScreen: pass in true to display the message on the screen.
+     * @param DisplayTime: pass in the time the message should be displayed on the screen.
+     */
 	static void LogFatal(const FString& Message, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
 
    /**
 	* @brief
 	* @param CurrentActor: pass in 'this' to get the Actor.
 	* @param PropertyName: pass in 'GET_MEMBER_NAME_CHECKED(ClassName, MemberName) to get the name of the property.
+	* @param bToScreen: pass in true to display the message on the screen.
+	* @param DisplayTime: pass in the time the message should be displayed on the screen.
 	*/
 	static void LogPropertyNotSet(const AActor* CurrentActor, const FName& PropertyName, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
 
-	template <typename T>
+    /**
+     * @brief 
+     * @tparam T: pass in the class name.
+     * @param FunctionName: pass in __FUNCTION__ to get the name of the function.
+     * @param bToScreen: pass in true to display the message on the screen.
+     * @param DisplayTime: pass in the time the message should be displayed on the screen.
+     */
+    template <typename T>
 	static void LogNullptr(const FString& FunctionName, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
 
     /**
     * @brief
     * @param CurrentActor: pass in 'this' to get the Actor.
-    * @param Property: property to check.
-    * @param PropertyName: Pass in 'GET_MEMBER_NAME_CHECKED(ClassName, MemberName) to get the name of the property.
+    * @param Property: pass in the property to check.
+    * @param PropertyName: pass in 'GET_MEMBER_NAME_CHECKED(ClassName, MemberName) to get the name of the property.
+    * @param bToScreen: pass in true to display the message on the screen.
+    * @param DisplayTime: pass in the time the message should be displayed on the screen.
     */
 	static bool CheckAndLogIsPropertySet(const AActor* CurrentActor, const UObject* Property, const FName& PropertyName, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
 
-	template <typename T>
+    /**
+     * @brief 
+     * @tparam T: pass in the class name.
+     * @param ObjectToCheck: pass in the object to check.
+     * @param FunctionName: pass in __FUNCTION__ to get the name of the function.
+     * @param bToScreen: pass in true to display the message on the screen.
+     * @param DisplayTime: pass in the time the message should be displayed on the screen.
+     * @return 
+     */
+    template <typename T>
 	static bool CheckAndLogIsValidPtr(const T* ObjectToCheck, const FString& FunctionName, const bool bToScreen = true, const float DisplayTime = STANDARD_DISPLAY_TIME);
 
 private:
@@ -50,10 +94,10 @@ void FLogger::LogNullptr(const FString& FunctionName, const bool bToScreen, cons
 	{
 		LogError(T::StaticClass()->GetName() + " is a nullptr!", bToScreen, DisplayTime);
 	}
-	else
-	{
-		LogError(FunctionName + ": " + T::StaticClass()->GetName() + " is a nullptr!", bToScreen, DisplayTime);
-	}
+    else
+    {
+        LogError(FunctionName + ": " + T::StaticClass()->GetName() + " is a nullptr!", bToScreen, DisplayTime);
+    }
 }
 
 template <typename T>

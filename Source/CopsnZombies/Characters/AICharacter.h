@@ -7,6 +7,7 @@
 #include "AICharacter.generated.h"
 
 class UBehaviorTree;
+class UStateTree;
 
 UCLASS()
 class COPSNZOMBIES_API AAICharacter : public ACopsnZombiesCharacter
@@ -17,6 +18,7 @@ public:
 	AAICharacter();
 
 	FORCEINLINE UBehaviorTree* GetBehaviorTree() const { return BehaviorTree; }
+    FORCEINLINE UStateTree* GetStateTree() const { return StateTree; }
 
 protected:
 	virtual void BeginPlay() override;
@@ -24,4 +26,7 @@ protected:
 private:
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
 		UBehaviorTree* BehaviorTree = nullptr;
+
+    UPROPERTY(EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = "true"))
+        UStateTree* StateTree = nullptr;
 };
